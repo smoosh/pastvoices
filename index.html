@@ -10,10 +10,11 @@
             $ sudo -i
             
             ######### make partitions #########
+            ######### for GPT #########
             
             # lsblk
             # cfdisk /dev/sdX
-              * gpt for UEFI (these are notes for a UEFI system)
+              * gpt for UEFI
               * enter > 1G > Type EFI System
               * new > 4G > swap type
               * new > use rest of disk for root
@@ -25,6 +26,12 @@
             # mount --mkdir /dev/sda1 /mnt/boot
             # swapon /dev/sda2
             # mount -t efivarfs efivarfs /sys/firmaware/efi/efivars
+
+            ######### for MBR #########
+            # parted /dev/sda -- mklable msdos
+            # parted /dev/sda -- mkpart primary 1MB -2GB
+            # parted /dev/sda -- set 1 boot on
+            # parted /dev/sda -- mkpart primary linux-swap -2GB 100%
             
             ######### generate config #########
             
