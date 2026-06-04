@@ -31,6 +31,11 @@
             # nixos-generate-config --root /mnt
             # vim /mnt/etc/nixos/configuration.nix
               * refer to guide for base configuration settings
+              * add this xserver entry
+                services.xserver = {
+                  enable = true;
+                  windowmanager.qtile.enable = true;
+                };
             # nixos-install
               * you will be prompted to change the root password
             # nixos-enter --root /mnt -c 'passwd username'
