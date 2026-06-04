@@ -1,5 +1,37 @@
 <html>
     <body style="background-color:White;">
-        5c32
+        $ sudo -i
+        
+        ######### make partitions #########
+        
+        # lsblk
+        # cfdisk /dev/sdX
+          * gpt for UEFI (these are notes for a UEFI system)
+          * enter > 1G > Type EFI System
+          * new > 4G > swap type
+          * new > use rest of disk for root
+          * write
+        # mkfs.ext4 -L nixos /dev/sda3 (root)
+        # mkswap -L /dev/sda2 (swap)
+        # mkfs.fat -F 32 -n boot /dev/sda1 (boot)
+        # mount /dev/sda3 /mnt
+        # mount --mkdir /dev/sda1 /mnt/boot
+        # swapon /dev/sda2
+        # mount -t efivarfs efivarfs /sys/firmaware/efi/efivars
+        
+        ######### generate config #########
+        
+        # nixos-generate-config --root /mnt
+        # vim /mnt/etc/nixos/configuration.nix
+          * refer to guide for base configuration settings
+        # nixos-install
+          * you will be prompted to change the root password
+        # nixos-enter --root /mnt -c 'passwd username'
+        # reboot
+        
+        ######### post install #########
+        
+        * edit /etc/nixos/configuration.nix
+        # nixos-rebuild switch
     </body>
 </html>
